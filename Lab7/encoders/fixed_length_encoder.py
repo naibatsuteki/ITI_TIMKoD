@@ -1,7 +1,7 @@
 import math
 import bitarray as ba
 
-from Lab7.encoders.basic_encoder import BasicEncoder
+from encoders.basic_encoder import BasicEncoder
 
 
 class FixedLengthEncoder(BasicEncoder):
