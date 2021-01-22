@@ -50,9 +50,14 @@ class FixedLengthEncoder(BasicEncoder):
 
 
 if __name__ == '__main__':
-    encoder = FixedLengthEncoder()
+    code_path = "code.json"
+    file_path = "code.fixed_code"
     original_text = "ala ma kota"
+    encoder = FixedLengthEncoder()
     encoder.create(original_text)
     encoded_text = encoder.encode(original_text)
-    decoded_text = encoder.decode(encoded_text)
+    encoder.save(code_path, file_path, encoded_text)
+    encoder.code = None
+    loaded_text = encoder.load(code_path, file_path)
+    decoded_text = encoder.decode(loaded_text)
     assert original_text == decoded_text
