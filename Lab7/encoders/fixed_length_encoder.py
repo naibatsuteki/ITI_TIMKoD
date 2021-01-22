@@ -50,9 +50,10 @@ class FixedLengthEncoder(BasicEncoder):
 
 
 if __name__ == '__main__':
-    code_path = "code.json"
-    file_path = "code.fixed_code"
-    original_text = "ala ma kota"
+    from os import path as osp
+    code_path = osp.join('outputs', 'fixed_length_code.json')
+    file_path = osp.join('outputs', 'test_file.fixed_length_code')
+    original_text = 'ala ma kota'
     encoder = FixedLengthEncoder()
     encoder.create(original_text)
     encoded_text = encoder.encode(original_text)
