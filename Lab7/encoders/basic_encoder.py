@@ -1,5 +1,7 @@
 from abc import abstractmethod
 
+import bitarray as ba
+
 
 class BasicEncoder:
 
@@ -14,14 +16,14 @@ class BasicEncoder:
         raise NotImplementedError
 
     @abstractmethod
-    def encode(self):
+    def encode(self, text: str) -> ba.bitarray:
         """
         docstring
         """
         raise NotImplementedError
 
     @abstractmethod
-    def decode(self):
+    def decode(self, coded_text: ba.bitarray) -> str:
         """
         docstring
         """

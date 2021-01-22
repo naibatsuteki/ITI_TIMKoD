@@ -1,5 +1,7 @@
 import math
 
+import bitarray as ba
+
 from Lab7.encoders.basic_encoder import BasicEncoder
 
 
@@ -11,9 +13,9 @@ class FixedLengthEncoder(BasicEncoder):
     @staticmethod
     def code_generator(code_length, power_factor=2):
         for i in range(int(math.pow(power_factor, code_length))):
-            yield f"{i:0{code_length}b}"
+            yield ba.bitarray(f"{i:0{code_length}b}")
 
-    def create(self, text: str):
+    def create(self, text: str) -> None:
         """
         docstring
         """
@@ -22,19 +24,25 @@ class FixedLengthEncoder(BasicEncoder):
         generator = self.code_generator(code_length)
         self.code = {char: generator.__next__() for char in characters}
 
-    def encode(self):
+    def encode(self, text: str) -> ba.bitarray:
         """
         docstring
         """
-        raise NotImplementedError
+        result = ba.bitarray()
+        result.encode(self.code, text)
+        return result
 
-    def decode(self):
+    def decode(self, coded_text: ba.bitarray) -> str:
         """
         docstring
         """
-        raise NotImplementedError
+        return ''.join(coded_text.decode(self.code))
 
 
 if __name__ == '__main__':
     encoder = FixedLengthEncoder()
-    encoder.create("ala ma kota")
+    original_text = "ala ma kota"
+    encoder.create(original_text)
+    encoded_text = encoder.encode(original_text)
+    decoded_text = encoder.decode(encoded_text)
+    assert original_text == decoded_text
