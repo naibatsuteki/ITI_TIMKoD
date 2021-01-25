@@ -1,4 +1,5 @@
 import math
+import random
 import bitarray as ba
 
 from encoders.basic_encoder import BasicEncoder
@@ -48,7 +49,14 @@ class FixedLengthEncoder(BasicEncoder):
                 continue
         return ''.join(result)
 
+    def _load_code(self, path: str) -> None:
+        # Fixed length code specific
+        super(FixedLengthEncoder, self)._load_code(path)
+        # Get any key. All codes have the same length.
+        self.code_length = len(random.choice(list(self.code.values())))
 
+
+# Local testing
 if __name__ == '__main__':
     from os import path as osp
     code_path = osp.join('outputs', 'fixed_length_code.json')
