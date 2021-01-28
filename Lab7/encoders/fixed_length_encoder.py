@@ -13,8 +13,7 @@ class FixedLengthEncoder(BasicEncoder):
 
     @staticmethod
     def code_generator(code_length, power_factor=2):
-        # Due to library specifics, code containing only zeros was disabled.
-        for i in range(1, int(math.pow(power_factor, code_length))):
+        for i in range(0, int(math.pow(power_factor, code_length))):
             yield ba.bitarray(f"{i:0{code_length}b}")
 
     def create(self, text: str) -> None:
@@ -69,4 +68,4 @@ if __name__ == '__main__':
     encoder.code = None
     loaded_text = encoder.load(code_path, file_path)
     decoded_text = encoder.decode(loaded_text)
-    assert original_text == decoded_text
+    assert original_text == decoded_text[:len(original_text)]
