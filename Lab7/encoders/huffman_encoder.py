@@ -4,34 +4,34 @@ from collections import Counter
 from encoders.basic_encoder import BasicEncoder
 
 
-class TreeNode():
-    def __init__(self, value: None, left=None, right=None):
-        self.value = value,
-        self.left = left,
-        self.right = right
-
-
 class HuffmanEncoder(BasicEncoder):
 
-    def get_code(self, state, history=''):
+    def generate_code(self, state, history=''):
+        """
+        docstring
+        """
         if len(state[0]) > 1:
             result = {}
-            result.update(self.get_code(state[0][0], history=f'{history}0'))
-            result.update(self.get_code(state[1][0], history=f'{history}1'))
+            result.update(self.generate_code(state[0][0], history=f'{history}0'))
+            result.update(self.generate_code(state[1][0], history=f'{history}1'))
             return result
         else:
             return {state[0]: history}
 
     def create(self, text: str) -> None:
+        """
+        docstring
+        """
+        # Huffman join
         frequency_list = Counter([c for c in text])
         while len(frequency_list) > 1:
             a = frequency_list.most_common()[-2:]
             del frequency_list[a[0][0]]
             del frequency_list[a[1][0]]
             frequency_list[tuple(a)] = a[0][1] + a[1][1]
-
+        # Code generation
         state = list(frequency_list.keys())[0]
-        code = self.get_code(state)
+        code = self.generate_code(state)
         self.code = {k: ba.bitarray(v) for k, v in code.items()}
 
     def encode(self, text: str) -> ba.bitarray:
