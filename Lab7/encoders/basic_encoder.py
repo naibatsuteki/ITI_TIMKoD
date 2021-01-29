@@ -75,6 +75,7 @@ class BasicEncoder:
         docstring
         """
         with open(path, 'rb') as file:
+            a = file.read()
             loading_buffer = ba.bitarray()
-            loading_buffer.fromfile(file)
+            loading_buffer.frombytes(a)
             return loading_buffer
