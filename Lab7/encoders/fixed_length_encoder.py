@@ -58,8 +58,8 @@ class FixedLengthEncoder(BasicEncoder):
 # Local testing
 if __name__ == '__main__':
     from os import path as osp
-    code_path = osp.join('outputs', 'fixed_length_code.json')
-    file_path = osp.join('outputs', 'test_file.fixed_length_code')
+    code_path = osp.join('outputs', 'test_fixed_length_code.json')
+    file_path = osp.join('outputs', 'test_file.fixed_length')
     original_text = 'ala ma kota'
     encoder = FixedLengthEncoder()
     encoder.create(original_text)

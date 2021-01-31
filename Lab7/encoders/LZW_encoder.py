@@ -96,7 +96,7 @@ class LZWEncoder(BasicEncoder):
 if __name__ == '__main__':
     from os import path as osp
 
-    code_path = osp.join('outputs', 'lzw_code.json')
+    code_path = osp.join('outputs', 'test_lzw_code.json')
     file_path = osp.join('outputs', 'test_file.lzw')
     original_text = 'aaaaaaaaaab'
     encoder = LZWEncoder(int(pow(2, 8)))

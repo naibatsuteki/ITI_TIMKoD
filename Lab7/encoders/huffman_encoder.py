@@ -65,7 +65,7 @@ class HuffmanEncoder(BasicEncoder):
 if __name__ == '__main__':
     from os import path as osp
 
-    code_path = osp.join('outputs', 'huffman_code.json')
+    code_path = osp.join('outputs', 'test_huffman_code.json')
     file_path = osp.join('outputs', 'test_file.huffman')
     original_text = 'ala ma kota'
     encoder = HuffmanEncoder()
