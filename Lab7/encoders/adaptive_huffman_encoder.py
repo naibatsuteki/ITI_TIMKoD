@@ -145,7 +145,6 @@ class AdaptiveHuffmanEncoder(BasicEncoder):
 
     def __init__(self):
         super(AdaptiveHuffmanEncoder, self).__init__()
-        state = None
 
     def create(self, text: str) -> None:
         """
@@ -163,7 +162,6 @@ class AdaptiveHuffmanEncoder(BasicEncoder):
         """
         docstring
         """
-        # This method is not obligatory in this task
         pass
 
 
