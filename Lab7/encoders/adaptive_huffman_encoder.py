@@ -1,16 +1,16 @@
 import bitarray as ba
-from typing import Optional
+from typing import Optional, Dict
 from encoders.basic_encoder import BasicEncoder
 
 
 class TreeNode:
     def __init__(self, value=None, weight=0, left=None, right=None, parent=None, l_child=None):
-        self.value = value
-        self.weight = weight
+        self.value: Optional[str] = value
+        self.weight: int = weight
         self.left: Optional[TreeNode] = left
         self.right: Optional[TreeNode] = right
         self.parent: Optional[TreeNode] = parent
-        self.l_child = l_child
+        self.l_child: bool = l_child
 
 
 class AdaptiveHuffmanCodeTree:
@@ -32,7 +32,7 @@ class AdaptiveHuffmanCodeTree:
 
     def __init__(self):
         self.tree: TreeNode = TreeNode(weight=0)
-        self.seen_character_dict = {}
+        self.seen_character_dict: Dict[str, TreeNode] = {}
         self.NTY_node: TreeNode = self.tree
 
     def add_character(self, character: str) -> None:
@@ -60,8 +60,26 @@ class AdaptiveHuffmanCodeTree:
             if node2update is not None:
                 self._update_tree(node2update)
 
-    def get_code(self):
-        pass
+    def get_code(self, left_tree_char: str = '0', right_tree_char: str = '1') -> Dict[str, str]:
+        """
+        Generate code dict from current tree state.
+        """
+        result = {}
+        for key, value in self.seen_character_dict.items():
+            char_code = ''
+            current_node = value
+            while current_node.parent is not None:
+                if current_node.l_child:
+                    char_code = f'{left_tree_char}{char_code}'
+
+                else:
+                    char_code = f'{right_tree_char}{char_code}'
+
+                current_node = current_node.parent
+
+            else:
+                result[key] = char_code
+        return result
 
     def _get_node_to_swap(self, updated_node) -> Optional[TreeNode]:
         """
@@ -139,10 +157,7 @@ class AdaptiveHuffmanEncoder(BasicEncoder):
         """
         docstring
         """
-        result = ba.bitarray()
-        for c in text:
-            result.extend(self.code[c])
-        return result
+        pass
 
     def decode(self, coded_text: ba.bitarray) -> str:
         """
@@ -154,29 +169,12 @@ class AdaptiveHuffmanEncoder(BasicEncoder):
 
 # Local testing
 if __name__ == '__main__':
+    test_1 = ['b', 'o', 'o', 'k', 'e', 'e', 'p', 'e', 'r']
+    test_2 = ['m', 'i', 's', 's', 's', 'i', 's', 's', 'i', 'p', 'p', 'i']
+    test_str = test_1
     ahct = AdaptiveHuffmanCodeTree()
-    # ahct.add_character('b')
-    # ahct.add_character('o')
-    # ahct.add_character('o')
-    # ahct.add_character('k')
-    # ahct.add_character('k')
-    # ahct.add_character('e')
-    # ahct.add_character('e')
-    # ahct.add_character('p')
-    # ahct.add_character('e')
-    # ahct.add_character('r')
-
-    ahct.add_character('m')
-    ahct.add_character('i')
-    ahct.add_character('s')
-    ahct.add_character('s')
-    ahct.add_character('i')
-    ahct.add_character('s')
-    ahct.add_character('s')
-    ahct.add_character('i')
-    ahct.add_character('p')
-    ahct.add_character('p')
-    ahct.add_character('i')
-
-    for i in ahct.ibfs():
-        print(i.value)
+    for i, char in enumerate(test_1):
+        print(f' State for : {"".join(test_str[:i + 1])}')
+        ahct.add_character(char)
+        print(ahct.get_code())
+        print()
